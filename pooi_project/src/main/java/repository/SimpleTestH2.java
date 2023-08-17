@@ -17,7 +17,8 @@ public class SimpleTestH2 {
 
             if (rs.next()) {
 
-                System.out.printf("[H2 Database] Query result: %d", rs.getInt(1));
+                System.out.printf("[H2 Database] Query result: %d\n", rs.getInt(1));
+                System.out.println("[H2 Database] Connection successful!");
             }
 
         } catch (SQLException ex) {
