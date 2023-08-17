@@ -9,7 +9,8 @@ public class Main {
             System.out.println("0. Create Actor");
             System.out.println("1. Create Director");
             System.out.println("2. Create Movie");
-            System.out.println("3. Quit");
+            System.out.println("3. Search a Movie (by name)");
+            System.out.println("4. Quit");
             System.out.print("Choose an option: ");
             chosenOption = scanner.nextInt();
             scanner.nextLine(); //Clear buffer
@@ -24,9 +25,11 @@ public class Main {
                     System.out.printf("Creating Movie Steps...\n");
                     break;
                 case 3:
+                    System.out.println("Searching Movie Steps...\n");
+                    break;
+                case 4:
                     System.out.println("Ok, bye!");
                     break;
-
                 default:
                     System.out.println("Invalid option, try again.");
             }
