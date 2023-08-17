@@ -1,11 +1,18 @@
-import repository.SimpleTestH2;
+import repository.H2Utils;
+
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        SimpleTestH2 h2TestClass = new SimpleTestH2();
-        h2TestClass.TestH2ConnectionMemory();
+        H2Utils db = new H2Utils();
+        try {
+            db.initializeDB();
+        } catch (SQLException e) {
+            System.out.println("[H2 Database] Unable to create tables. Closing App...");
+            return;
+        }
 
         Scanner scanner = new Scanner(System.in);
         int chosenOption;
