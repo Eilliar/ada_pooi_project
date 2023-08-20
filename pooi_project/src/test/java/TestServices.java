@@ -16,8 +16,8 @@ public class TestServices {
         DirectorService directorService = new DirectorService(personRepository);
 
         // Test ActorService
-        actorService.addActor("John Doe", new Date(), GenderType.MALE);
-        actorService.addActor("Jane Smith", new Date(), GenderType.FEMALE);
+//        actorService.addActor("John Doe", new Date(), GenderType.MALE);
+//        actorService.addActor("Jane Smith", new Date(), GenderType.FEMALE);
 
         Person actor = actorService.getActor("John Doe");
         System.out.println("Ator encontrado: " + actor);

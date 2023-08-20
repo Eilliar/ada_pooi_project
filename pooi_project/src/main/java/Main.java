@@ -2,6 +2,7 @@ import entity.GenderType;
 import entity.Person;
 import repository.H2Utils;
 import repository.PersonRepository;
+import service.ActorService;
 import service.Menu;
 import service.PersonService;
 
@@ -23,9 +24,9 @@ public class Main {
         }
 
         PersonRepository personRepository = new PersonRepository();
-        PersonService personService = new PersonService(personRepository);
+        ActorService actorService = new ActorService(personRepository);
         Menu menu = new Menu();
-        menu.runUserInterface(personService);
+        menu.runUserInterface(actorService);
 
 
     }
