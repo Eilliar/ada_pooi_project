@@ -7,7 +7,6 @@ import entity.CareerType;
 import entity.Person;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PersonRepository extends Repository {
@@ -28,6 +27,10 @@ public class PersonRepository extends Repository {
             " ON p.id = pc.person_id" +
             " WHERE pc.career = ?" +
             " ORDER BY p.id ASC";
+    private static final String FIND_QUERY = "SELECT p.*, pc.career FROM persons p" +
+            " LEFT JOIN person_careers pc" +
+            " ON p.id = pc.person_id" +
+            " WHERE pc.career = ? AND p.name = ?";
 
     public PersonRepository() {
         super();
@@ -65,15 +68,27 @@ public class PersonRepository extends Repository {
     }
 
     @Override
-    public Person get(String nome, CareerType careerType) {
-        for (Object obj : lista) {
-            if (obj instanceof Person person) {
-                if (person.getName().equals(nome) && person.getCareers().contains(careerType)) {
-                    return person;
-                }
+    public List<String[]> get(String queryName, CareerType careerType) {
+        List<String[]> results = new ArrayList<>();
+
+        try (Connection connection = H2Utils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_QUERY)) {
+            preparedStatement.setString(1, careerType.toString());
+            preparedStatement.setString(2, queryName);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String birthDate = rs.getString("birth_date");
+                String gender = rs.getString("gender");
+                String career = rs.getString("career");
+                results.add(new String[] {id, name, birthDate, gender, career});
             }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-        return null;
+        return results;
     }
 
     @Override
@@ -81,7 +96,7 @@ public class PersonRepository extends Repository {
         List<String[]> results = new ArrayList<>();
 
         try (Connection connection = H2Utils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY)) {
             preparedStatement.setString(1, careerType.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -99,7 +114,5 @@ public class PersonRepository extends Repository {
         return results;
     }
 
-    public void addCareer(Person person, CareerType career) {
-        person.getCareers().add(career);
-    }
+
 }
