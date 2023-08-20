@@ -1,9 +1,17 @@
+import entity.GenderType;
+import entity.Person;
 import repository.H2Utils;
+import repository.PersonRepository;
+import service.Menu;
+import service.PersonService;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
 
         H2Utils db = new H2Utils();
@@ -14,37 +22,11 @@ public class Main {
             return;
         }
 
-        Scanner scanner = new Scanner(System.in);
-        int chosenOption;
-        do {
-            System.out.println("\nMenu:");
-            System.out.println("0. Create Actor");
-            System.out.println("1. Create Director");
-            System.out.println("2. Create Movie");
-            System.out.println("3. Search a Movie (by name)");
-            System.out.println("4. Quit");
-            System.out.print("Choose an option: ");
-            chosenOption = scanner.nextInt();
-            scanner.nextLine(); //Clear buffer
-            switch (chosenOption) {
-                case 0:
-                    System.out.printf("Creating Actor Steps...\n");
-                    break;
-                case 1:
-                    System.out.printf("Creating Director Steps...\n");
-                    break;
-                case 2:
-                    System.out.printf("Creating Movie Steps...\n");
-                    break;
-                case 3:
-                    System.out.println("Searching Movie Steps...\n");
-                    break;
-                case 4:
-                    System.out.println("Ok, bye!");
-                    break;
-                default:
-                    System.out.println("Invalid option, try again.");
-            }
-        } while(chosenOption != 4);
+        PersonRepository personRepository = new PersonRepository();
+        PersonService personService = new PersonService(personRepository);
+        Menu menu = new Menu();
+        menu.runUserInterface(personService);
+
+
     }
 }
