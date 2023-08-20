@@ -9,30 +9,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DirectorService {
+public class ActorService {
 
     private PersonRepository personRepository;
 
-    public DirectorService(PersonRepository personRepository) {
+    public ActorService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
-    public void addDirector(String name, Date dateBirth, GenderType gender) {
-        Person director = new Person(name, dateBirth , gender);
-        personRepository.addCareer(director, CareerType.DIRECTOR);
-        personRepository.add(director);
+    public void addActor(String name, Date dateBirth, GenderType gender) {
+        Person actor = new Person(name, dateBirth , gender);
+        personRepository.addCareer(actor, CareerType.ACTOR);
+        personRepository.add(actor);
     }
 
-    public Person getDirector(String name) {
-        return personRepository.get(name, CareerType.DIRECTOR);
+    public Person getActor(String name) {
+        return personRepository.get(name, CareerType.ACTOR);
     }
 
-    public List<Object> findAllDirectors() {
+    public List<Object> findAllActors() {
         return this.personRepository.findAll()
                 .stream()
                 .filter(person -> person instanceof Person)
                 .map(person -> (Person) person)
-                .filter(person -> person.getCareers().contains(CareerType.DIRECTOR))
+                .filter(person -> person.getCareers().contains(CareerType.ACTOR))
                 .collect(Collectors.toList());
     }
 
