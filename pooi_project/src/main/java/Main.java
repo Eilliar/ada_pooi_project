@@ -1,8 +1,10 @@
 import repository.H2Utils;
+import repository.MovieRepository;
 import repository.PersonRepository;
 import service.ActorService;
 import service.DirectorService;
 import service.Menu;
+import service.MovieService;
 
 import java.sql.SQLException;
 
@@ -19,11 +21,12 @@ public class Main {
         }
 
         PersonRepository personRepository = new PersonRepository();
+        MovieRepository movieRepository = new MovieRepository();
         ActorService actorService = new ActorService(personRepository);
         DirectorService directorService = new DirectorService(personRepository);
-
+        MovieService movieService = new MovieService(movieRepository);
         Menu menu = new Menu();
-        menu.runUserInterface(actorService, directorService);
+        menu.runUserInterface(actorService, directorService, movieService);
 
 
     }
