@@ -22,12 +22,19 @@ public class DirectorService {
 
     public void addDirector(String name, String birthDate, SextType gender) {
         Person director = new Person(name, stringToDate(birthDate), gender);
-        personRepository.addCareer(director, CareerType.DIRECTOR);
+        addCareer(director, CareerType.DIRECTOR);
         personRepository.add(director);
     }
 
-    public Person getDirector(String name) {
-        return personRepository.get(name, CareerType.DIRECTOR);
+    public List<Person> getDirector(String name) {
+        List<Person> directors = new ArrayList<>();
+        List<String[]> results =  personRepository.get(name, CareerType.DIRECTOR);
+        for(String[] r: results){
+            Person director = new Person(r[1], stringToDate(r[2]), SextType.valueOf(r[3]));
+            addCareer(director, CareerType.valueOf(r[4]));
+            directors.add(director);
+        }
+        return directors;
     }
 
     public List<Person> findAllDirectors() {

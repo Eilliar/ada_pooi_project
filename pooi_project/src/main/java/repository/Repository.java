@@ -10,7 +10,7 @@ public abstract class Repository {
 
     public abstract void add(Object obj);
 
-    public abstract Object get(String nome, CareerType careerToCheck);
+    public abstract List<String[]> get(String nome, CareerType careerToCheck);
 
     public abstract List<String[]> findAll(CareerType career);
 

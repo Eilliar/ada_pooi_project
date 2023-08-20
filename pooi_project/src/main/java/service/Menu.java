@@ -16,10 +16,13 @@ public class Menu {
             System.out.println("0. Create Actor");
             System.out.println("1. Create Director");
             System.out.println("2. Create Movie");
-            System.out.println("3. Search a Movie (by name)");
+            System.out.println("3. Show all Movies");
             System.out.println("4. Show all Actors");
             System.out.println("5. Show all Directors");
-            System.out.println("6. Quit");
+            System.out.println("6. Search Actor (by name)");
+            System.out.println("7. Search Director (by name)");
+            System.out.println("8. Search Movie (by name)");
+            System.out.println("9. Quit");
             System.out.print("Choose an option: ");
             chosenOption = scanner.nextInt();
             scanner.nextLine(); //Clear buffer
@@ -50,7 +53,7 @@ public class Menu {
                     System.out.printf("Creating Movie Steps...\n");
                     break;
                 case 3:
-                    System.out.println("Searching Movie Steps...\n");
+                    System.out.println("Showing all Movies...\n");
                     break;
                 case 4:
                     List<Person> actors = actorService.findAllActors();
@@ -65,11 +68,30 @@ public class Menu {
                     }
                     break;
                 case 6:
-                    System.out.println("Ok, bye!");
+                    System.out.println("Give me a name to search for: ");
+                    String sa_name = scanner.nextLine();
+                    List<Person> actorSearch = actorService.getActors(sa_name);
+                    for(Person a: actorSearch){
+                        System.out.println(a);
+                    }
+                    break;
+                case 7:
+                    System.out.println("Give me a name to search for: ");
+                    String sd_name = scanner.nextLine();
+                    List<Person> directorSearch = directorService.getDirector(sd_name);
+                    for(Person a: directorSearch){
+                        System.out.println(a);
+                    }
+                    break;
+                case 8:
+                    System.out.println("Searching Movies...");
+                    break;
+                case 9:
+                    System.out.println("Ok, Bye!");
                     break;
                 default:
                     System.out.println("Invalid option, try again.");
             }
-        } while(chosenOption != 6);
+        } while(chosenOption != 9);
     }
 }

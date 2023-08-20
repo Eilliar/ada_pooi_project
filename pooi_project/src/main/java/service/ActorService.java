@@ -23,12 +23,19 @@ public class ActorService {
     public void addActor(String name, String birthDate, SextType gender) {
 
         Person actor = new Person(name, stringToDate(birthDate), gender);
-        personRepository.addCareer(actor, CareerType.ACTOR);
+        addCareer(actor, CareerType.ACTOR);
         personRepository.add(actor);
     }
 
-    public Person getActor(String name) {
-        return personRepository.get(name, CareerType.ACTOR);
+    public List<Person> getActors(String name) {
+        List<Person> actors = new ArrayList<>();
+        List<String[]> results =  personRepository.get(name, CareerType.ACTOR);
+        for(String[] r: results){
+            Person actor = new Person(r[1], stringToDate(r[2]), SextType.valueOf(r[3]));
+            addCareer(actor, CareerType.valueOf(r[4]));
+            actors.add(actor);
+        }
+        return actors;
     }
 
     public List<Person> findAllActors() {
