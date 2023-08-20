@@ -42,6 +42,13 @@ public class H2Utils {
                    gender VARCHAR(50) NOT NULL
                 );""";
 
+        String createPersonCareerSQL = """
+                CREATE TABLE IF NOT EXISTS person_careers (\s
+                   id INT auto_increment PRIMARY KEY,\s
+                   person_id INT,\s
+                   career VARCHAR(50),\s
+                   foreign key (person_id) references persons(id)
+                );""";
 
         String createMoviesSQL = """
                 CREATE TABLE IF NOT EXISTS movies (\s
@@ -54,12 +61,31 @@ public class H2Utils {
                    foreign key (director_id) references persons(id)
                 );""";
 
+        String createActorMoviesSQL = """
+                CREATE TABLE IF NOT EXISTS actor_movies (\s
+                   id INT auto_increment PRIMARY KEY,\s
+                   actor_id INT NOT NULL,\s
+                   movie_id INT NOT NULL,\s
+                   
+                   foreign key (actor_id) references persons(id),
+                   foreign key (movie_id) references movies(id)
+                );""";
+
         System.out.println("[H2 Database] Creating persons table...");
         this.createTable(createPersonSQL);
         System.out.println("[H2 Database] Successfully created persons table!");
+
+        System.out.println("[H2 Database] Creating person_careers table...");
+        this.createTable(createPersonCareerSQL);
+        System.out.println("[H2 Database] Successfully person_careers table!");
+
         System.out.println("[H2 Database] Creating movies table...");
         this.createTable(createMoviesSQL);
         System.out.println("[H2 Database] Successfully created movies table!");
+
+        System.out.println("[H2 Database] Creating actor_movies table...");
+        this.createTable(createActorMoviesSQL);
+        System.out.println("[H2 Database] Successfully created actor_movies table!");
     }
 
 }
