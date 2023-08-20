@@ -8,15 +8,15 @@ import java.util.Objects;
 
 public class Movie {
 
-    private String name;
+    private String title;
     private Date releaseDate;
     private double budget;
     private String description;
     private Person director;
     private List<Person> actors;
 
-    public Movie(String name, Date releaseDate, double budget, String description, Person director){
-        this.name = name;
+    public Movie(String title, Date releaseDate, double budget, String description, Person director){
+        this.title = title;
         this.releaseDate = releaseDate;
         this.budget = budget;
         this.description = description;
@@ -24,12 +24,12 @@ public class Movie {
         this.actors = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getReleaseDate() {
@@ -74,7 +74,7 @@ public class Movie {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, releaseDate, budget, description, director);
+        return Objects.hash(title, releaseDate, budget, description, director);
     }
 
     @Override
@@ -86,12 +86,12 @@ public class Movie {
         if (getClass() != obj.getClass())
             return false;
         Movie other = (Movie) obj;
-        return Objects.equals(name, other.name) && Objects.equals(releaseDate, other.releaseDate);
+        return Objects.equals(title, other.title) && Objects.equals(releaseDate, other.releaseDate);
     }
 
     @Override
     public String toString() {
-        return "Filme: " + name + ", Data de lançamento: " + releaseDate + ", Orçamento: " + budget + ", Diretor: " + director +
+        return "Filme: " + title + ", Data de lançamento: " + releaseDate + ", Orçamento: " + budget + ", Diretor: " + director +
                 "Atores: "+ actors + "Descrição: " + description;
     }
 }

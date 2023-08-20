@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Menu {
 
-    public void runUserInterface(ActorService actorService, DirectorService directorService){
+    public void runUserInterface(ActorService actorService, DirectorService directorService, MovieService movieService){
         Scanner scanner = new Scanner(System.in);
         int chosenOption;
         do {
@@ -50,10 +50,10 @@ public class Menu {
                     System.out.println("Successfully registered new Director!");
                     break;
                 case 2:
-                    System.out.printf("Creating Movie Steps...\n");
+                    addMovieFlow(scanner, directorService, actorService, movieService);
                     break;
                 case 3:
-                    System.out.println("Showing all Movies...\n");
+                    movieService.listMovies();
                     break;
                 case 4:
                     List<Person> actors = actorService.findAllActors();
@@ -93,5 +93,25 @@ public class Menu {
                     System.out.println("Invalid option, try again.");
             }
         } while(chosenOption != 9);
+    }
+
+    void addMovieFlow(Scanner scanner, DirectorService directorService, ActorService actorService, MovieService movieService){
+        System.out.printf("Creating Movie Steps...\n");
+        System.out.println("Give me a Title: ");
+        String title = scanner.nextLine();
+        System.out.println("Give me a release date (YYYY-MM-DD): ");
+        String releaseDate = scanner.nextLine();
+        System.out.println("Give me a budget: ");
+        double budget = Double.parseDouble(scanner.nextLine());
+        System.out.println("Give me a description: ");
+        String description = scanner.nextLine();
+        System.out.println("Give me a director name to search for: ");
+        String directorName = scanner.nextLine();
+        List<Person> directorsFound = directorService.getDirector(directorName);
+        System.out.println("Give me an actor name to search for: ");
+        String actorName = scanner.nextLine();
+        List<Person> actorsFound = actorService.getActors(actorName);
+        movieService.registerMovie(title, releaseDate, budget, description, directorsFound.get(0), actorsFound);
+        System.out.println("Successfully registered new Movie!");
     }
 }
