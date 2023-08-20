@@ -10,13 +10,13 @@ public class Person {
 
     private String name;
     private Date dateBirth;
-    private GenderType genderType;
+    private SextType sextType;
     private List<CareerType> careers;
 
-    public Person(String name, Date dateBirth,  GenderType genderType) {
+    public Person(String name, Date dateBirth,  SextType sextType) {
         this.name = name;
         this.dateBirth = dateBirth;
-        this.genderType = genderType;
+        this.sextType = sextType;
         this.careers = new ArrayList<CareerType>();
     }
 
@@ -36,12 +36,12 @@ public class Person {
         this.dateBirth = dateBirth;
     }
 
-    public GenderType getGenderType() {
-        return genderType;
+    public SextType getGenderType() {
+        return sextType;
     }
 
-    public void setGenderType(GenderType genderType) {
-        this.genderType = genderType;
+    public void setGenderType(SextType sextType) {
+        this.sextType = sextType;
     }
 
     public List<CareerType> getCareers() {
@@ -57,12 +57,12 @@ public class Person {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Person person = (Person) object;
-        return Objects.equals(name, person.name) && Objects.equals(dateBirth, person.dateBirth) && genderType == person.genderType && Objects.equals(careers, person.careers);
+        return Objects.equals(name, person.name) && Objects.equals(dateBirth, person.dateBirth) && sextType == person.sextType && Objects.equals(careers, person.careers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, dateBirth, genderType, careers);
+        return Objects.hash(name, dateBirth, sextType, careers);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class Person {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", dateBirth=" + dateBirth +
-                ", genderType=" + genderType.getDisplayName() +
+                ", genderType=" + sextType.getDisplayName() +
                 ", careers=" + careerDisplayNames +
                 '}';
     }

@@ -1,15 +1,12 @@
 package entity;
 
-public enum GenderType {
+public enum SextType {
     MALE("Male"),
-    FEMALE("Female"),
-    NON_BINARY("Non-Binary"),
-    GENDERQUEER("Genderqueer"),
-    OTHER("Other");
+    FEMALE("Female");
 
     private final String displayName;
 
-    GenderType(String displayName) {
+    SextType(String displayName) {
         this.displayName = displayName;
     }
 
