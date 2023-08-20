@@ -23,6 +23,12 @@ public class PersonRepository extends Repository {
             " ON p.id = pc.person_id" +
             " ORDER BY p.id ASC";
 
+    private static final String SELECT_QUERY = "SELECT p.*, pc.career FROM persons p" +
+            " LEFT JOIN person_careers pc" +
+            " ON p.id = pc.person_id" +
+            " WHERE pc.career = ?" +
+            " ORDER BY p.id ASC";
+
     public PersonRepository() {
         super();
         this.lista = new ArrayList<>();
@@ -71,26 +77,26 @@ public class PersonRepository extends Repository {
     }
 
     @Override
-    public List<Object> findAll() {
-        return Collections.unmodifiableList(this.lista);
-    }
+    public List<String[]> findAll(CareerType careerType) {
+        List<String[]> results = new ArrayList<>();
 
-    public void showAllRecords() {
         try (Connection connection = H2Utils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY);) {
+            preparedStatement.setString(1, careerType.toString());
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                String id = rs.getString("id");
                 String name = rs.getString("name");
                 String birthDate = rs.getString("birth_date");
                 String gender = rs.getString("gender");
                 String career = rs.getString("career");
-                System.out.println(id + "," + name + "," + birthDate + "," + gender + "," + career);
+                results.add(new String[] {id, name, birthDate, gender, career});
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
+        return results;
     }
 
     public void addCareer(Person person, CareerType career) {

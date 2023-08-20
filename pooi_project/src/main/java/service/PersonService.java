@@ -1,6 +1,6 @@
 package service;
 
-import entity.GenderType;
+import entity.SextType;
 import entity.Person;
 import repository.PersonRepository;
 
@@ -14,7 +14,7 @@ public class PersonService {
         this.personRepo = personRepository;
     }
 
-    public Person RegisterNewPerson(String name, String birthDate, GenderType gender ){
+    public Person RegisterNewPerson(String name, String birthDate, SextType gender ){
         String[] splitArray = birthDate.split("-");
         int[] birthArray = new int[splitArray.length];
         for(int i=0; i < splitArray.length; i++){
@@ -26,10 +26,5 @@ public class PersonService {
 
         return p1;
     }
-
-    public void showAllRegister(){
-        this.personRepo.showAllRecords();
-    }
-
 
 }

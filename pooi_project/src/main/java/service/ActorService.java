@@ -1,14 +1,15 @@
 package service;
 
 import entity.CareerType;
-import entity.GenderType;
+import entity.SextType;
 import entity.Person;
 import repository.PersonRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static service.Utils.createDate;
+import static service.Utils.stringToDate;
 
 public class ActorService {
 
@@ -19,15 +20,9 @@ public class ActorService {
         this.personRepository = personRepository;
     }
 
-    public void addActor(String name, String birthDate, GenderType gender) {
+    public void addActor(String name, String birthDate, SextType gender) {
 
-        String[] splitArray = birthDate.split("-");
-        int[] birthArray = new int[splitArray.length];
-        for(int i=0; i < splitArray.length; i++){
-            birthArray[i] = Integer.valueOf(splitArray[i]);
-        }
-
-        Person actor = new Person(name, createDate(birthArray[0], birthArray[1], birthArray[2]) , gender);
+        Person actor = new Person(name, stringToDate(birthDate), gender);
         personRepository.addCareer(actor, CareerType.ACTOR);
         personRepository.add(actor);
     }
@@ -36,18 +31,18 @@ public class ActorService {
         return personRepository.get(name, CareerType.ACTOR);
     }
 
-    public List<Object> findAllActors() {
-        return this.personRepository.findAll()
-                .stream()
-                .filter(person -> person instanceof Person)
-                .map(person -> (Person) person)
-                .filter(person -> person.getCareers().contains(CareerType.ACTOR))
-                .collect(Collectors.toList());
+    public List<Person> findAllActors() {
+        List<Person> actors = new ArrayList<>();
+        List<String[]> results = this.personRepository.findAll(CareerType.ACTOR);
+
+        for(String[] r: results){
+            Person actor = new Person(r[1], stringToDate(r[2]), SextType.valueOf(r[3]));
+            addCareer(actor, CareerType.valueOf(r[4]));
+            actors.add(actor);
+        }
+        return actors;
     }
 
-    public void showAllRecords(){
-        this.personRepository.showAllRecords();
-    }
     public void addCareer(Person person, CareerType career) {
         person.getCareers().add(career);
     }

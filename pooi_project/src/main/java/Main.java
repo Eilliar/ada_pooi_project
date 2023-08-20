@@ -1,13 +1,8 @@
-import entity.GenderType;
-import entity.Person;
 import repository.H2Utils;
 import repository.PersonRepository;
 import service.ActorService;
+import service.DirectorService;
 import service.Menu;
-import service.PersonService;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 import java.sql.SQLException;
 
@@ -25,8 +20,10 @@ public class Main {
 
         PersonRepository personRepository = new PersonRepository();
         ActorService actorService = new ActorService(personRepository);
+        DirectorService directorService = new DirectorService(personRepository);
+
         Menu menu = new Menu();
-        menu.runUserInterface(actorService);
+        menu.runUserInterface(actorService, directorService);
 
 
     }
