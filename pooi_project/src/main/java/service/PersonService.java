@@ -4,17 +4,11 @@ import entity.GenderType;
 import entity.Person;
 import repository.PersonRepository;
 
-import java.util.Date;
+import static service.Utils.createDate;
 
 public class PersonService {
 
     PersonRepository personRepo;
-
-    public static Date createDate(int year, int month, int day) {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(year, month-1, day);
-        return calendar.getTime();
-    }
 
     public PersonService(PersonRepository personRepository){
         this.personRepo = personRepository;
