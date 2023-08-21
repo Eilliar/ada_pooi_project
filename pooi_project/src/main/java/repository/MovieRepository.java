@@ -6,7 +6,10 @@ import entity.Movie;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import entity.Person;
 
 public class MovieRepository {
@@ -19,8 +22,10 @@ public class MovieRepository {
             " (actor_id, movie_id) VALUES " +
             " (?, ?);";
 
-    private static final String SEARCH_MOVIE_SQL = "SELECT m.* FROM movies m" +
-            " WHERE m.title = ? ;" ;
+    private static final String SEARCH_MOVIE_SQL = "SELECT m.*, p.name, p.birth_date, p.gender  " +
+            " FROM movies m LEFT JOIN persons p" +
+            " ON m.director_id = p.id" +
+            " WHERE LOWER(m.title) = LOWER(?) ;" ;
 
     private static final String SELECT_ALL_SQL = "SELECT m.*, p.name, p.birth_date, p.gender " +
             " FROM movies m LEFT JOIN persons p " +
@@ -96,13 +101,34 @@ public class MovieRepository {
         return results;
     }
 
-    public Movie searchMovieByName(String nameMovie){
-        for(Movie movie : movies){
-            if(movie.getTitle().equalsIgnoreCase(nameMovie)){
-                return movie;
+    public List<String[]> searchMovieByName(String movieName){
+
+        List<String[]> results = new ArrayList<>();
+
+        try (Connection connection = H2Utils.getConnection();
+             PreparedStatement searchMovieStatement = connection.prepareStatement(SEARCH_MOVIE_SQL)) {
+            searchMovieStatement.setString(1, movieName);
+            ResultSet rs = searchMovieStatement.executeQuery();
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String title = rs.getString("title");
+                String launch_date = rs.getString("launch_date");
+                String budget = rs.getString("budget");
+                String description = rs.getString("description");
+                String director_id = rs.getString("director_id");
+                String director_name = rs.getString("name");
+                String director_birth = rs.getString("birth_date");
+                String director_gender = rs.getString("gender");
+
+                results.add(new String[] {id, title, launch_date, budget, description, director_id, director_name, director_birth, director_gender});
             }
+
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-        return null;
+
+        return results;
     }
 
     public List<String[]> listMovies(){

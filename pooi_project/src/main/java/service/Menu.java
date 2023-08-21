@@ -78,7 +78,7 @@ public class Menu {
                     }
                     break;
                 case 6:
-                    System.out.println("Give me a name to search for: ");
+                    System.out.println("Give me a actor name to search for: ");
                     String sa_name = scanner.nextLine();
                     List<Person> actorSearch = actorService.getActors(sa_name);
                     for(Person a: actorSearch){
@@ -86,7 +86,7 @@ public class Menu {
                     }
                     break;
                 case 7:
-                    System.out.println("Give me a name to search for: ");
+                    System.out.println("Give me a director name to search for: ");
                     String sd_name = scanner.nextLine();
                     List<Person> directorSearch = directorService.getDirector(sd_name);
                     for(Person a: directorSearch){
@@ -94,7 +94,17 @@ public class Menu {
                     }
                     break;
                 case 8:
-                    System.out.println("Searching Movies...");
+                    System.out.println("Give me a movie title to search for: ");
+                    String title = scanner.nextLine();
+                    List<Movie> moviesFound = movieService.searchMovie(title);
+                    for(Movie m: moviesFound){
+                        System.out.println(m);
+                        System.out.println("Actors:");
+                        List<Person> actorsFound = movieService.listActors(m.getTitle());
+                        for(Person a: actorsFound){
+                            System.out.println(a);
+                        }
+                    }
                     break;
                 case 9:
                     System.out.println("Ok, Bye!");

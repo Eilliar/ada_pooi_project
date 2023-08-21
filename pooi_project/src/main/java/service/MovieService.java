@@ -6,10 +6,7 @@ import entity.SextType;
 import repository.MovieRepository;
 import entity.Person;
 
-import java.io.CharArrayReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static service.Utils.stringToDate;
@@ -51,8 +48,16 @@ public class MovieService{
         return actors;
     }
 
-    public Person showDirector(String nameMovie){
-        return movieRepository.searchMovieByName(nameMovie).getDirector();
+    public List<Movie> searchMovie(String movieName){
+        List<Movie> movies = new ArrayList<>();
+        List<String[]> results = movieRepository.searchMovieByName(movieName);
+        for (String[] s: results){
+            Person director = new Person(s[6], stringToDate(s[7]), SextType.valueOf(s[8]));
+            director.getCareers().add(CareerType.DIRECTOR);
+            Movie movie = new Movie(s[1], stringToDate(s[2]), Double.valueOf(s[3]), s[4], director);
+            movies.add(movie);
+        }
+        return movies;
     }
 
 }
