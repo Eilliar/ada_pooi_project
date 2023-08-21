@@ -46,7 +46,7 @@ public class H2Utils {
                 CREATE TABLE IF NOT EXISTS person_careers (\s
                    id INT auto_increment PRIMARY KEY,\s
                    person_id INT,\s
-                   career VARCHAR(50),\s
+                   career VARCHAR(50) NOT NULL,\s
                    foreign key (person_id) references persons(id)
                 );""";
 
