@@ -16,7 +16,8 @@ public class Main {
         try {
             db.initializeDB();
         } catch (SQLException e) {
-            System.out.println("[H2 Database] Unable 3to create tables. Closing App...");
+            System.out.println("[H2 Database] ERROR: " + e);
+            System.out.println("[H2 Database] Unable to create tables. Closing App...");
             return;
         }
 

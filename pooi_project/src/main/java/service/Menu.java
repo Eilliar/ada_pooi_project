@@ -4,6 +4,7 @@ import entity.Movie;
 import entity.Person;
 import entity.SextType;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -136,18 +137,19 @@ public class Menu {
         for(Person d: directorsFound){
             System.out.println("Found this director:");
             System.out.println(d);
-            System.out.println("Add it as a director (y/n)? ");
-            String chosenOption = scanner.nextLine();
+            String chosenOption;
             do {
+                System.out.println("Add it as a director (y/n)? ");
+                chosenOption = scanner.nextLine();
                 switch (chosenOption.toLowerCase()) {
                     case "y":
                         directorToAdd = d;
                         break;
                     case "n":
-                        System.out.println("OK, searching for next director");
+                        System.out.println("OK, searching for next director with the same name...");
                         break;
                     default:
-                        System.out.println("Invalid option");
+                        System.out.println("Invalid option. Try again.");
                 }
             } while(chosenOption == "y" || chosenOption == "n");
             if (directorToAdd != null) {
@@ -155,15 +157,61 @@ public class Menu {
             }
         }
         if (directorToAdd == null) {
-            System.out.println("Unable to add a director, try again");
+            System.out.println("Unable to add a director, you need to have one! Try again.");
             return;
         }
 
         // Actors
-        System.out.println("Give me an actor name to search for: ");
-        String actorName = scanner.nextLine();
-        List<Person> actorsFound = actorService.getActors(actorName);
-        movieService.registerMovie(title, releaseDate, budget, description, directorToAdd, actorsFound);
+        List<Person> actorsToAdd = new ArrayList<>();
+        boolean continueAdding = false;
+        do {
+            System.out.println("Give me an actor name to search for: ");
+            String actorName = scanner.nextLine();
+            List<Person> actorsFound = actorService.getActors(actorName);
+            String chosenOption;
+            for (Person a : actorsFound) {
+                System.out.println("Found this actor:");
+                System.out.println(a);
+
+                do {
+                    System.out.println("Add it as an actor (y/n)? ");
+                    chosenOption = scanner.nextLine();
+                    switch (chosenOption.toLowerCase()) {
+                        case "y":
+                            actorsToAdd.add(a);
+                            break;
+                        case "n":
+                            System.out.println("OK, searching for next actor with the same name...");
+                            break;
+                        default:
+                            System.out.println("Invalid option");
+                    }
+                } while (chosenOption == "y" || chosenOption == "n");
+            }
+
+            do{
+                System.out.println("Do you want to add more actors (y/n)? ");
+                chosenOption = scanner.nextLine();
+                switch (chosenOption){
+                    case "y":
+                        continueAdding = true;
+                        break;
+                    case "n":
+                        continueAdding = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                }
+            }while(chosenOption == "y" || chosenOption == "n");
+
+        } while(continueAdding);
+
+        if (actorsToAdd.isEmpty()) {
+            System.out.println("Unable to add an actor, you need at least one! Try again");
+            return;
+        }
+
+        movieService.registerMovie(title, releaseDate, budget, description, directorToAdd, actorsToAdd);
         System.out.println("Successfully registered new Movie!");
     }
 }
