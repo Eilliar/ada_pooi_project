@@ -91,7 +91,11 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Filme: " + title + ", Data de lançamento: " + releaseDate + ", Orçamento: " + budget + ", Diretor: " + director +
-                "Atores: "+ actors + "Descrição: " + description;
+        return "Movie: " + title +
+                ", Release date: " + releaseDate +
+                ", Budget: " + budget +
+                ", Description: " + description +
+                ", Director: " + director
+                ;
     }
 }

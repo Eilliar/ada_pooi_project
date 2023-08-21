@@ -1,5 +1,6 @@
 package service;
 
+import entity.Movie;
 import entity.Person;
 import entity.SextType;
 
@@ -53,7 +54,16 @@ public class Menu {
                     addMovieFlow(scanner, directorService, actorService, movieService);
                     break;
                 case 3:
-                    movieService.listMovies();
+                    System.out.printf("Listing all movies...\n");
+                    List<Movie> movies = movieService.listMovies();
+                    for(Movie m: movies){
+                        System.out.println(m);
+                        System.out.println("Actors:");
+                        List<Person> actors = movieService.listActors(m.getTitle());
+                        for(Person a: actors){
+                            System.out.println(a);
+                        }
+                    }
                     break;
                 case 4:
                     List<Person> actors = actorService.findAllActors();
