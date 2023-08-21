@@ -116,6 +116,8 @@ public class Menu {
     }
 
     void addMovieFlow(Scanner scanner, DirectorService directorService, ActorService actorService, MovieService movieService){
+
+        // Movie Attributes
         System.out.printf("Creating Movie Steps...\n");
         System.out.println("Give me a Title: ");
         String title = scanner.nextLine();
@@ -125,13 +127,43 @@ public class Menu {
         double budget = Double.parseDouble(scanner.nextLine());
         System.out.println("Give me a description: ");
         String description = scanner.nextLine();
+
+        // Director
         System.out.println("Give me a director name to search for: ");
         String directorName = scanner.nextLine();
         List<Person> directorsFound = directorService.getDirector(directorName);
+        Person directorToAdd = null;
+        for(Person d: directorsFound){
+            System.out.println("Found this director:");
+            System.out.println(d);
+            System.out.println("Add it as a director (y/n)? ");
+            String chosenOption = scanner.nextLine();
+            do {
+                switch (chosenOption.toLowerCase()) {
+                    case "y":
+                        directorToAdd = d;
+                        break;
+                    case "n":
+                        System.out.println("OK, searching for next director");
+                        break;
+                    default:
+                        System.out.println("Invalid option");
+                }
+            } while(chosenOption == "y" || chosenOption == "n");
+            if (directorToAdd != null) {
+                break;
+            }
+        }
+        if (directorToAdd == null) {
+            System.out.println("Unable to add a director, try again");
+            return;
+        }
+
+        // Actors
         System.out.println("Give me an actor name to search for: ");
         String actorName = scanner.nextLine();
         List<Person> actorsFound = actorService.getActors(actorName);
-        movieService.registerMovie(title, releaseDate, budget, description, directorsFound.get(0), actorsFound);
+        movieService.registerMovie(title, releaseDate, budget, description, directorToAdd, actorsFound);
         System.out.println("Successfully registered new Movie!");
     }
 }
