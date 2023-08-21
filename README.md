@@ -2,7 +2,7 @@
 
 # Project Overview
 
-![Video Overview](https://youtu.be/R-4Gexd0G9o)
+[![Video Overview](https://img.youtube.com/vi/R-4Gexd0G9o/0.jpg)](https://www.youtube.com/watch?v=R-4Gexd0G9o)
 
 # Data Structure
 
