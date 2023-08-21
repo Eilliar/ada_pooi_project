@@ -22,7 +22,18 @@ public class MovieRepository {
     private static final String SEARCH_MOVIE_SQL = "SELECT m.* FROM movies m" +
             " WHERE m.title = ? ;" ;
 
-    private static final String SELECT_ALL_SQL = "SELECT * FROM movies ORDER BY 1 ASC;";
+    private static final String SELECT_ALL_SQL = "SELECT m.*, p.name, p.birth_date, p.gender " +
+            " FROM movies m LEFT JOIN persons p " +
+            " ON m.director_id = p.id" +
+            " ORDER BY 1 ASC;";
+
+    private static final String SELECT_LIST_ACTORS_SQL = "SELECT  p.name, p.birth_date, p.gender" +
+            " FROM movies m LEFT JOIN actor_movies am" +
+            " ON m.id = am.movie_id" +
+            " LEFT JOIN persons p " +
+            " ON am.actor_id = p.id " +
+            " WHERE m.title = ?" +
+            " ;";
     private List<Movie> movies;
 
     public MovieRepository(){
@@ -62,11 +73,27 @@ public class MovieRepository {
         }
     }
 
-    public List<Person> listActors(String nameMovie){
-        if (searchMovieByName(nameMovie) != null){
-            return searchMovieByName(nameMovie).getActors();
+    public List<String[]> listActors(String nameMovie){
+        List<String[]> results = new ArrayList<>();
+
+        try (Connection connection = H2Utils.getConnection();
+             PreparedStatement selectActorsStatement = connection.prepareStatement(SELECT_LIST_ACTORS_SQL)) {
+
+            selectActorsStatement.setString(1, nameMovie);
+
+            ResultSet rs = selectActorsStatement.executeQuery();
+
+            while (rs.next()) {
+                String actor_name = rs.getString("name");
+                String birth_date = rs.getString("birth_date");
+                String sex = rs.getString("gender");
+                results.add(new String[] {actor_name, birth_date, sex});
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-        return null;
+        return results;
     }
 
     public Movie searchMovieByName(String nameMovie){
@@ -92,8 +119,11 @@ public class MovieRepository {
                 String budget = rs.getString("budget");
                 String description = rs.getString("description");
                 String director_id = rs.getString("director_id");
+                String director_name = rs.getString("name");
+                String director_birth = rs.getString("birth_date");
+                String director_gender = rs.getString("gender");
 
-                results.add(new String[] {id, title, launch_date, budget, description, director_id});
+                results.add(new String[] {id, title, launch_date, budget, description, director_id, director_name, director_birth, director_gender});
             }
 
         } catch (SQLException e) {
