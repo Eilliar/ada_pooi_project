@@ -72,10 +72,10 @@ public class Person {
                 .collect(Collectors.toList());
 
         return "Person{" +
-                "name='" + name + '\'' +
-                ", dateBirth=" + dateBirth +
-                ", genderType=" + sextType.getDisplayName() +
-                ", careers=" + careerDisplayNames +
+                "name = '" + name + '\'' +
+                ", date of birth = " + dateBirth +
+                ", Sex = " + sextType.getDisplayName() +
+                ", careers = " + careerDisplayNames +
                 '}';
     }
 }
